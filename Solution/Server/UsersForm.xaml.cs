@@ -1,17 +1,28 @@
 ﻿using System.Windows;
-using EnigmaMM.Engine;
-using EnigmaMM.Engine.Data;
+using System.Windows.Data;
+using EnigmaMM.Engine.Gui;
 
     namespace EnigmaMM
     {
         public partial class UsersForm : Window
         {
-            private EMMDataContext mDb = Manager.GetContext;
+            private ObservableUsers users;
 
             public UsersForm()
             {
                 InitializeComponent();
-                dataGrid1.DataContext = mDb.Users;              
             }
+
+            private void Window_Loaded(object sender, RoutedEventArgs e)
+            {
+                users = new ObservableUsers();
+                usersDataGrid.ItemsSource = users;
+            }
+
+            private void SaveChanges_Click(object sender, RoutedEventArgs e)
+            {
+                users.Save();
+            }
+
         }
     }
