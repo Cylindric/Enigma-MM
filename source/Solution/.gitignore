@@ -1,9 +1,0 @@
-*.csproj.user
-*.suo
-*.VisualState.xml
-*/bin/*
-*/obj/*
-~$*.xlsx
-Build/*
-EMM/Data/EMM.log
-TestResult.xml
