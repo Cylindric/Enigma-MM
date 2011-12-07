@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Net;
-using System.IO.Compression;
+using Ionic.Zip;
 
 namespace Bootstrap
 {
@@ -57,6 +55,21 @@ namespace Bootstrap
                 "C10t"
             );
 
+            // C10t extracts into a subfolder, so move the files up one level
+            PromoteDirectory(Path.Combine(paths["c10t"], "c10t-1.9-windows-x86"));
+        }
+
+        private static void PromoteDirectory(string extractRoot)
+        {
+            foreach (string filename in Directory.GetFiles(extractRoot))
+            {
+                File.Move(filename, Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(filename)), Path.GetFileName(filename)));
+            }
+            foreach (string dir in Directory.GetDirectories(extractRoot))
+            {
+                Directory.Move(dir, Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(dir)), Path.GetFileName(dir)));
+            }
+            Directory.Delete(extractRoot);
         }
 
         private static void DownloadFile(string filename, string url, string name)
@@ -76,6 +89,13 @@ namespace Bootstrap
                         WebClient web = new WebClient();
                         web.DownloadFile(url, downloadpath);
                         Console.WriteLine("done");
+                    }
+                    if (Path.GetExtension(downloadpath) == ".zip")
+                    {
+                        using (ZipFile zip = new ZipFile(downloadpath))
+                        {
+                            zip.ExtractAll(Path.GetDirectoryName(downloadpath), ExtractExistingFileAction.OverwriteSilently);
+                        }
                     }
                 }
                 catch (Exception ex)
