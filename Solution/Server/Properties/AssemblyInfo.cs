@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Enigma Minecraft Manager")]
-[assembly: AssemblyCopyright("Copyright Mark Hanford© 2010")]
+[assembly: AssemblyCopyright("Copyright Mark Hanford© 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
