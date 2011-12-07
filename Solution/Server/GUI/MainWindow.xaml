@@ -11,13 +11,13 @@
 
         <ToolBarPanel Grid.Row="0" VerticalAlignment="Top" Orientation="Horizontal">
             <Button Name="uxStartButton" Click="uxStartButton_Click" Margin="0 0 4 0">
-                <Image Name="uxStartButtonImage" Source="Resources/toolbar-start-active.png"></Image>
+                <Image Name="uxStartButtonImage" Source="/Resources/toolbar-start-active.png"></Image>
             </Button>
             <Button Name="uxStopButton" Click="uxStopButton_Click" Margin="0 0 4 0">
-                <Image Name="uxStopButtonImage" Source="Resources/toolbar-stop-active.png"></Image>
+                <Image Name="uxStopButtonImage" Source="/Resources/toolbar-stop-active.png"></Image>
             </Button>
             <Button Name="uxRestartButton" Click="uxRestartButton_Click" Margin="0 0 4 0">
-                <Image Name="uxRestartButtonImage" Source="Resources/toolbar-restart-active.png"></Image>
+                <Image Name="uxRestartButtonImage" Source="/Resources/toolbar-restart-active.png"></Image>
             </Button>
             <Button Content="Users" Height="28" Name="button1" Width="45" Click="button1_Click" />
         </ToolBarPanel>

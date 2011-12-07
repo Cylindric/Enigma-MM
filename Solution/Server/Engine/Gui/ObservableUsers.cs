@@ -28,9 +28,8 @@ namespace EnigmaMM.Engine.Gui
             }
 
             ignoreEvents = false;
-
-
         }
+
 
         protected override void OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

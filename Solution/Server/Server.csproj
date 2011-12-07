@@ -110,10 +110,10 @@
     <Compile Include="Engine\Settings\SettingsFile.cs" />
     <Compile Include="Engine\StatusEnum.cs" />
     <Compile Include="Engine\UserManager.cs" />
-    <Compile Include="UsersForm.xaml.cs">
+    <Compile Include="GUI\UsersForm.xaml.cs">
       <DependentUpon>UsersForm.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="GUI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -137,11 +137,11 @@
     <Compile Include="InvokeOC.cs" />
     <Compile Include="LogListItem.cs" />
     <Compile Include="LVColumnStretchProperty.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="GUI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UsersForm.xaml">
+    <Page Include="GUI\UsersForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
