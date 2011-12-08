@@ -11,8 +11,10 @@ namespace EnigmaMM.Engine.Data
         {
             DoInsertConfig();
             DoInsertMessageTypes();
-            DoInsertRanks();
-            DoInsertPermissions();
+            DoInsertRanks(); // must be before Users
+            DoInsertScheduleTypes(); // must be before Schedules
+            DoInsertSchedules();
+            DoInsertPermissions(); // must be before Users
             DoInsertUsers();
             DoInsertItems();
         }
@@ -308,6 +310,21 @@ namespace EnigmaMM.Engine.Data
             InsertItem(2264, "straddisc", "Strad Disc", 64, 64, 4);
             InsertItem(2265, "warddisc", "Ward Disc", 1, 64, 4);
             InsertItem(2266, "11disc", "11 Disc", 1, 64, 4);
+            mDb.SubmitChanges();
+        }
+
+        private void DoInsertSchedules()
+        {
+            InsertSchedule("startup", "Start Server", -1, -1, -1, "start");
+            InsertSchedule("standard", "Daily 3am restart", -1, 3, 0, "restart now");
+            InsertSchedule("standard", "Daily 4am backup", -1, 4, 0, "backup");
+            mDb.SubmitChanges();
+        }
+
+        private void DoInsertScheduleTypes()
+        {
+            InsertScheduleType("standard", "Standard");
+            InsertScheduleType("startup", "Startup");
             mDb.SubmitChanges();
         }
 

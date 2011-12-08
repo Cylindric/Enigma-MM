@@ -63,6 +63,17 @@ namespace EnigmaMM.Engine.Data
             mDb.Ranks.InsertOnSubmit(new Data.Rank() { Level = level, Name = name });
         }
 
+        protected void InsertSchedule(string typeCode, string name, int days, int hours, int minutes, string command)
+        {
+            Data.ScheduleType type = mDb.ScheduleTypes.Single(s => s.Code == typeCode);
+            mDb.Schedules.InsertOnSubmit(new Data.Schedule() { Name = name, Days = days, Hours = hours, Minutes = minutes, Command = command, ScheduleType = type });
+        }
+
+        protected void InsertScheduleType(string code, string name)
+        {
+            mDb.ScheduleTypes.InsertOnSubmit(new Data.ScheduleType() { Code = code, Name = name });
+        }
+
         protected void InsertUser(string name, Data.Rank rank)
         {
             mDb.Users.InsertOnSubmit(new Data.User() { Username = name, Rank = rank });

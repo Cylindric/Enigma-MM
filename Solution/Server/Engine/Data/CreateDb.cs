@@ -55,7 +55,7 @@ namespace EnigmaMM.Engine.Data
                 [MatchType] nvarchar(10) NOT NULL
             )");
 
-             mCommandQueue.Add(@"
+            mCommandQueue.Add(@"
             CREATE TABLE Permissions
             (
                 [Permission_ID] int IDENTITY PRIMARY KEY NOT NULL,
@@ -63,7 +63,7 @@ namespace EnigmaMM.Engine.Data
                 [Name] nvarchar(50) NOT NULL
             )");
 
-             mCommandQueue.Add(@"
+            mCommandQueue.Add(@"
             CREATE TABLE Ranks
             (
                 [Rank_ID] int IDENTITY PRIMARY KEY NOT NULL,
@@ -71,7 +71,31 @@ namespace EnigmaMM.Engine.Data
                 [Name] nvarchar(50) NOT NULL
             )");
 
-           mCommandQueue.Add(@"
+            mCommandQueue.Add(@"
+            CREATE TABLE Schedules
+            (
+                [Schedule_ID] int IDENTITY PRIMARY KEY NOT NULL,
+                [Schedule_Type_ID] int NOT NULL,
+                [Name] nvarchar(50) NOT NULL,
+                [Days] int NOT NULL DEFAULT 0,
+                [Hours] int NOT NULL DEFAULT 0,
+                [Minutes] int NOT NULL DEFAULT 0,
+                [Command] nvarchar(50) NOT NULL DEFAULT '',
+                [NextRunTime] DateTime,
+                [LastRunTime] DateTime
+            )
+            ");
+
+            mCommandQueue.Add(@"
+            CREATE TABLE ScheduleTypes
+            (
+                [Schedule_Type_ID] int IDENTITY PRIMARY KEY NOT NULL,
+                [Name] nvarchar(50) NOT NULL,
+                [Code] nvarchar(10) NOT NULL
+            )
+            ");
+
+            mCommandQueue.Add(@"
             CREATE TABLE Tracking
             (
                 [Tracking_ID] int IDENTITY PRIMARY KEY NOT NULL,
@@ -98,6 +122,7 @@ namespace EnigmaMM.Engine.Data
             mCommandQueue.Add(@"ALTER TABLE ItemHistory ADD CONSTRAINT [FK_ItemHistory_User] FOREIGN KEY (User_ID) REFERENCES Users (User_ID)");
             mCommandQueue.Add(@"ALTER TABLE Tracking ADD CONSTRAINT [FK_Tracking_User] FOREIGN KEY (User_ID) REFERENCES Users (User_ID)");
             mCommandQueue.Add(@"ALTER TABLE Users ADD CONSTRAINT [FK_User_Rank] FOREIGN KEY (Rank_ID) REFERENCES Ranks (Rank_ID) ON DELETE CASCADE ON UPDATE CASCADE");
+            mCommandQueue.Add(@"ALTER TABLE Schedules ADD CONSTRAINT [FK_Schedule_ScheduleType] FOREIGN KEY (Schedule_Type_ID) REFERENCES ScheduleTypes (Schedule_Type_ID) ON DELETE CASCADE ON UPDATE CASCADE");
 
             ExecuteCommands();
         }
