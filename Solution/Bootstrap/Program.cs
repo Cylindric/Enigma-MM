@@ -17,6 +17,7 @@ namespace Bootstrap
             paths.Add("overviewer", "Overviewer");
             paths.Add("backups", "Backups");
             paths.Add("maps", "Maps");
+            paths.Add("biomeextractor", "BiomeExtractor");
 
             // The base-path is the location of the current executable
             string emmRoot = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Substring(8));
@@ -67,17 +68,7 @@ namespace Bootstrap
                 else
                 {
                     Console.Write("searching...");
-                    string apiurl = "https://api.github.com/repos/overviewer/Minecraft-Overviewer/downloads";
-                    WebRequest rw = WebRequest.Create(apiurl);
-                    WebResponse resp = rw.GetResponse();
-                    StreamReader sr = new StreamReader(resp.GetResponseStream());
-                    string r = sr.ReadToEnd();
-
-                    // Poor-man's JSON decode :)
-                    // We only really need the first HTML_URL value
-                    int urlStart = r.IndexOf("html_url\":\"") + 11;
-                    int urlEnd = r.IndexOf("\"", urlStart + 1);
-                    string overviewerUrl = r.Substring(urlStart, urlEnd - urlStart);
+                    string overviewerUrl = GetLatestGitHubDownload("overviewer", "Minecraft-Overviewer");
 
                     DownloadFile(
                         Path.Combine(paths["overviewer"], "overviewer.exe"),
@@ -95,33 +86,61 @@ namespace Bootstrap
             }
 
 
-             Console.Write("Attempting to download C10t...");
-             try
-             {
-                 if (File.Exists(Path.Combine(paths["c10t"], "c10t.exe")))
-                 {
-                     Console.Write("already present...");
-                 }
-                 else
-                 {
-                     DownloadFile(
-                          Path.Combine(paths["c10t"], "c10t.exe"),
-                          "http://toolchain.eu/minecraft/c10t/releases/c10t-1.9-windows-x86.zip",
-                          "C10t"
-                      );
+            Console.Write("Attempting to download Biome Extractor...");
+            try
+            {
+                if (File.Exists(Path.Combine(paths["biomeextractor"], "biomeextractor.jar")))
+                {
+                    Console.Write("already present...");
+                }
+                else
+                {
+                    Console.Write("searching...");
+                    string overviewerUrl = GetLatestGitHubDownload("overviewer", "minecraft-biome-extractor");
 
-                     // C10t extracts into a subfolder, so move the files up one level
-                     Console.Write("promoting...");
-                     PromoteDirectory(Path.Combine(paths["c10t"], "c10t-1.9-windows-x86"));
-                 }
-                 Console.WriteLine("done.");
-             }
-             catch (Exception ex)
-             {
-                 Console.WriteLine("ERROR!");
-                 Console.WriteLine("Failed to find and/or download");
-                 Console.WriteLine(ex.Message);
-             }
+                    DownloadFile(
+                        Path.Combine(paths["biomeextractor"], "BiomeExtractor.jar"),
+                        overviewerUrl,
+                        "Biome Extractor"
+                    );
+                }
+                Console.WriteLine("done.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR!");
+                Console.WriteLine("Failed to find and/or download");
+                Console.WriteLine(ex.Message);
+            }
+
+
+            Console.Write("Attempting to download C10t...");
+            try
+            {
+                if (File.Exists(Path.Combine(paths["c10t"], "c10t.exe")))
+                {
+                    Console.Write("already present...");
+                }
+                else
+                {
+                    DownloadFile(
+                         Path.Combine(paths["c10t"], "c10t.exe"),
+                         "http://toolchain.eu/minecraft/c10t/releases/c10t-1.9-windows-x86.zip",
+                         "C10t"
+                     );
+
+                    // C10t extracts into a subfolder, so move the files up one level
+                    Console.Write("promoting...");
+                    PromoteDirectory(Path.Combine(paths["c10t"], "c10t-1.9-windows-x86"));
+                }
+                Console.WriteLine("done.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR!");
+                Console.WriteLine("Failed to find and/or download");
+                Console.WriteLine(ex.Message);
+            }
         }
 
 
@@ -165,7 +184,6 @@ namespace Bootstrap
                     Console.Write("downloading...");
                     WebClient web = new WebClient();
                     web.DownloadFile(url, downloadpath);
-                    web.Proxy = null;
                 }
                 if (Path.GetExtension(downloadpath) == ".zip")
                 {
@@ -174,10 +192,32 @@ namespace Bootstrap
                     {
                         zip.ExtractAll(Path.GetDirectoryName(downloadpath), ExtractExistingFileAction.OverwriteSilently);
                     }
-
+                }
+                else
+                {
+                    if (filename != downloadpath)
+                    {
+                        File.Move(downloadpath, filename);
+                    }
                 }
             }
         }
 
+
+        private static string GetLatestGitHubDownload(string owner, string repo)
+        {
+            string apiurl = string.Format("https://api.github.com/repos/{0}/{1}/downloads", owner, repo);
+            WebRequest rw = WebRequest.Create(apiurl);
+            WebResponse resp = rw.GetResponse();
+            StreamReader sr = new StreamReader(resp.GetResponseStream());
+            string r = sr.ReadToEnd();
+
+            // Poor-man's JSON decode :)
+            // We only really need the first HTML_URL value
+            int urlStart = r.IndexOf("html_url\":\"") + 11;
+            int urlEnd = r.IndexOf("\"", urlStart + 1);
+            string url = r.Substring(urlStart, urlEnd - urlStart);
+            return url;
+        }
     }
 }

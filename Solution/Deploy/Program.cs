@@ -19,6 +19,7 @@ namespace Deploy
             paths.Add("overviewer", "Overviewer");
             paths.Add("backups", "Backups");
             paths.Add("maps", "Maps");
+            paths.Add("biomeextractor", "BiomeExtractor");
 
             // The base-path is the location of the current executable
             string buildRoot = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Substring(8));
