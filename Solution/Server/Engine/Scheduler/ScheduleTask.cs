@@ -12,6 +12,7 @@ namespace EnigmaMM.Scheduler
         public const string AT_STARTUP = "@startup";
         public const string AT_NEVER = "@never";
 
+        public int OriginalDbId { get; set; }
         private string mRunDays;
         private string mRunHours;
         private string mRunMinutes;

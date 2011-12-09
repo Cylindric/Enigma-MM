@@ -291,7 +291,6 @@ namespace EnigmaMM.Engine
             mMinecraftSettings.LookForNewSettings();
             mMinecraftWhitelist.LookForNewSettings();
 
-            mScheduler.LoadSchedule(Path.Combine(mSettings.ServerManagerRoot, "scheduler.xml"));
             mScheduler.Start();
 
             mUserManager.UpdateAllPositionsFromFile();

@@ -228,7 +228,6 @@
     <Resource Include="Resources\toolbar-restart-inactive.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Engine\Scheduler\sample.scheduler.xml" />
     <Resource Include="Engine\Ionic.txt" />
     <Content Include="Engine\Ionic.Zip.Reduced.dll" />
   </ItemGroup>

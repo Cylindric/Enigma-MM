@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Timers;
 using System.Xml;
 using EnigmaMM.Engine;
+using EnigmaMM.Engine.Data;
 
 namespace EnigmaMM.Scheduler
 {
@@ -66,6 +68,7 @@ namespace EnigmaMM.Scheduler
         /// </summary>
         public void Start()
         {
+            this.LoadSchedule();
             mTimer.Interval = TIMER_INTERVAL;
             processTimer(DateTime.Now);
             mTimer.Start();
@@ -80,34 +83,48 @@ namespace EnigmaMM.Scheduler
         }
 
         /// <summary>
-        /// Parses the file specified by <c>file</c> for tasks, and adds them
-        /// to the execution queue.
+        /// Loads the schedule from the database
         /// </summary>
-        /// <param name="file">Full path to the schedule file.</param>
-        public void LoadSchedule(string file)
+        private void LoadSchedule()
         {
-            mTasks = new List<ScheduleTask>();
-            if ( (file.Length == 0) || (!File.Exists(file)) )
-            {
-                return;
-            }
-            XmlDocument xml = new XmlDocument();
-            xml.Load(file);
-            XmlNodeList nodeList = xml.DocumentElement.SelectNodes("/schedule/task");
-            foreach (XmlNode taskNode in nodeList)
+            foreach (Schedule s in Manager.GetContext.Schedules)
             {
                 ScheduleTask task = new ScheduleTask();
-                task.Name = taskNode.SelectSingleNode("name").InnerText;
-                task.Command = taskNode.SelectSingleNode("command").InnerText;
-                task.RunDays = taskNode.SelectSingleNode("days").InnerText;
-                task.RunHours = taskNode.SelectSingleNode("hours").InnerText;
-                task.RunMinutes = taskNode.SelectSingleNode("minutes").InnerText;
+                task.OriginalDbId = s.Schedule_ID;
+                task.Name = s.Name;
+                task.Command = s.Command;
+
+                task.RunDays = "*";
+                task.RunHours = "*";
+                task.RunMinutes = "*";
+
+                if (s.ScheduleType.Code == "startup")
+                {
+                    task.RunDays = "@startup";
+                }
+                else
+                {
+                    if (s.Days >= 0)
+                    {
+                        task.RunDays = s.Days.ToString();
+                    }
+
+                    if (s.Hours >= 0)
+                    {
+                        task.RunHours = s.Hours.ToString();
+                    }
+
+                    if (s.Minutes >= 0)
+                    {
+                        task.RunMinutes = s.Minutes.ToString();
+                    }
+                }
                 AddTask(task);
             }
         }
 
         /// <summary>
-        /// Adds the specified <see cref="IScheduleTask"/> to the task list.
+        /// Adds the specified <see cref="ScheduleTask"/> to the task list.
         /// </summary>
         /// <param name="task">The task to add.</param>
         public void AddTask(ScheduleTask task)

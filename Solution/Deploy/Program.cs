@@ -50,9 +50,6 @@ namespace Deploy
             CopyFiles(buildRoot, stagingRoot, "LibNbt.dll");
             CopyFiles(buildRoot, stagingRoot, "Ionic.Zip.Reduced.dll");
 
-            // Copy the default scheduler config
-            CopyFiles(Path.Combine(sourceRoot, "Server", "Engine", "Scheduler"), stagingRoot, "sample.scheduler.xml");
-
             // Build the monolithic license readme
             string readme = File.ReadAllText(Path.Combine(projectRoot, "readme.txt"));
             string nbtLic = File.ReadAllText(Path.Combine(sourceRoot, "LibNbt", "libnbt.txt"));
