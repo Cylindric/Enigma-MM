@@ -76,6 +76,7 @@ namespace EnigmaMM.Engine.Data
             (
                 [Schedule_ID] int IDENTITY PRIMARY KEY NOT NULL,
                 [Schedule_Type_ID] int NOT NULL,
+                [Enabled] bit NOT NULL DEFAULT 1,
                 [Name] nvarchar(50) NOT NULL,
                 [Days] int NOT NULL DEFAULT 0,
                 [Hours] int NOT NULL DEFAULT 0,

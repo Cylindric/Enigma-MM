@@ -83,11 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EMMDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EMMDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Engine\Commands\Mappers\BiomeExtractor.cs" />
     <Compile Include="Engine\Commands\Mappers\C10t.cs" />
     <Compile Include="Engine\Commands\Mappers\Mapper.cs" />
@@ -171,7 +166,6 @@
     </None>
     <None Include="EMMDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EMMDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="EMMDataSet.xss">

@@ -66,7 +66,13 @@ namespace EnigmaMM.Engine.Data
         protected void InsertSchedule(string typeCode, string name, int days, int hours, int minutes, string command)
         {
             Data.ScheduleType type = mDb.ScheduleTypes.Single(s => s.Code == typeCode);
-            mDb.Schedules.InsertOnSubmit(new Data.Schedule() { Name = name, Days = days, Hours = hours, Minutes = minutes, Command = command, ScheduleType = type });
+            mDb.Schedules.InsertOnSubmit(new Data.Schedule() { 
+                Name = name,
+                Days = days, 
+                Hours = hours, 
+                Minutes = minutes, 
+                Command = command, 
+                ScheduleType = type });
         }
 
         protected void InsertScheduleType(string code, string name)

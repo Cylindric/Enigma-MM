@@ -30,6 +30,11 @@ namespace EnigmaMM.Scheduler
         #region Public Getters and Setters
 
         /// <summary>
+        /// Enables or disabled the task
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of this task, for logging and management.
         /// </summary>
         public string Name { get; set; }
@@ -109,7 +114,8 @@ namespace EnigmaMM.Scheduler
             mRunDays = "";
             mRunHours = "";
             mRunMinutes = "";
-            NextRun = DateTime.MaxValue;
+            this.Enabled = false;
+            this.NextRun = DateTime.MaxValue;
         }
 
         /// <summary>
@@ -121,9 +127,9 @@ namespace EnigmaMM.Scheduler
         public ScheduleTask(string days, string hours, string minutes)
             : this()
         {
-            RunDays = days;
-            RunHours = hours;
-            RunMinutes = minutes;
+            this.RunDays = days;
+            this.RunHours = hours;
+            this.RunMinutes = minutes;
             CalculateNextRunTime();
         }
 
@@ -187,6 +193,12 @@ namespace EnigmaMM.Scheduler
             next = next.AddMinutes(1);
 
             bool done = false;
+
+            // Disabled tasks are never run
+            if (Enabled == false)
+            {
+                RunDays = AT_NEVER;
+            }
 
             if (RunDays == AT_STARTUP)
             {
